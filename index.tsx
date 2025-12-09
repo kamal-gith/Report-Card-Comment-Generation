@@ -24,8 +24,8 @@ const App = () => {
 
   const fillExample = () => {
     setFormData({
-      name: 'Ibrahim Musa',
-      className: 'Primary 4',
+      name: 'Jalaludeen Adobanyi',
+      className: 'Primary 1',
       strengths: 'good reading pace, active participation',
       weaknesses: 'needs better handwriting, sometimes rushes tasks',
       behaviour: 'polite and attentive',
