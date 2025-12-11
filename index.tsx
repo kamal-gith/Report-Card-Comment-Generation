@@ -109,7 +109,7 @@ const App = () => {
             <div className="max-w-5xl mx-auto px-4 h-16 flex items-center justify-between">
                 <div className="flex items-center gap-2 text-indigo-600">
                     <BookOpen className="w-6 h-6" />
-                    <h1 className="text-xl font-bold tracking-tight">ReportComment AI</h1>
+                    <h1 className="text-xl font-bold tracking-tight">Report Comment AI</h1>
                 </div>
                 <div className="text-sm text-slate-500 hidden sm:flex items-center gap-2">
                     <Sparkles className="w-4 h-4 text-amber-500" />
@@ -146,7 +146,7 @@ const App = () => {
                                 name="name"
                                 value={formData.name}
                                 onChange={handleInputChange}
-                                placeholder="e.g. Ibrahim Musa"
+                                placeholder="e.g. Jalaludeen Adobanyi"
                                 className="w-full px-3 py-2.5 bg-slate-50 border border-slate-200 rounded-lg focus:outline-none focus:ring-2 focus:ring-indigo-500/20 focus:border-indigo-500 transition-all text-sm"
                             />
                         </div>
@@ -157,7 +157,7 @@ const App = () => {
                                 name="className"
                                 value={formData.className}
                                 onChange={handleInputChange}
-                                placeholder="e.g. Primary 4"
+                                placeholder="e.g. Primary 1"
                                 className="w-full px-3 py-2.5 bg-slate-50 border border-slate-200 rounded-lg focus:outline-none focus:ring-2 focus:ring-indigo-500/20 focus:border-indigo-500 transition-all text-sm"
                             />
                         </div>
