@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import { createRoot } from 'react-dom/client';
-import { GoogleGenAI } from "@google/genai";
+
 import { Loader2, Copy, Check, Sparkles, GraduationCap, RefreshCcw, BookOpen, Wand2 } from 'lucide-react';
 
 const App = () => {
@@ -42,8 +42,8 @@ const App = () => {
   };
 
   const generateReport = async () => {
-  if (!formData.name || !formData.strengths) {
-    setError('Please fill in at least the Name and Strengths fields to generate a report.');
+  if (!formData.name || !formData.strengths || !formData.weaknesses) {
+    setError('Please fill in at least the Name, Strengths and Area for Improvement fields to generate a report.');
     return;
   }
 
@@ -108,7 +108,7 @@ const App = () => {
                 </div>
                 <div className="text-sm text-slate-500 hidden sm:flex items-center gap-2">
                     <Sparkles className="w-4 h-4 text-amber-500" />
-                    Powered by Gemini 2.5 Flash
+                    A Product of Kaso Global Technologies
                 </div>
             </div>
         </header>
