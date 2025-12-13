@@ -42,65 +42,60 @@ const App = () => {
   };
 
   const generateReport = async () => {
-    if (!formData.name || !formData.strengths) {
-        setError('Please fill in at least the Name and Strengths fields to generate a report.');
-        return;
+  if (!formData.name || !formData.strengths) {
+    setError('Please fill in at least the Name and Strengths fields to generate a report.');
+    return;
+  }
+
+  setError('');
+  setLoading(true);
+  setGeneratedComment('');
+
+  try {
+    const prompt = `
+    Task: Write a short end-of-term report comment for a pupil. Use clear and natural English.
+
+    Pupil name: ${formData.name}
+    Class: ${formData.className}
+    Strengths: ${formData.strengths}
+    Areas for improvement: ${formData.weaknesses}
+    Behaviour/attitude: ${formData.behaviour}
+    Other notes: ${formData.notes}
+
+    Guidelines:
+    1. Keep the comment between 2 and 4 sentences.
+    2. Use a positive and encouraging tone.
+    3. Mention the pupil by name once at the beginning.
+    4. Refer to the strengths directly.
+    5. Address the areas to improve without sounding harsh.
+    6. Avoid exaggerated praise or negative language.
+        `.trim();
+
+    const response = await fetch("/api/generate", {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({ prompt }),
+    });
+
+    if (!response.ok) {
+      throw new Error("Server error");
     }
-    setError('');
-    setLoading(true);
-    setGeneratedComment('');
 
-    try {
-      const ai = new GoogleGenAI({ apiKey: process.env.API_KEY });
-      
-      const prompt = `
-        Task: Write a short end-of-term report comment for a pupil. Use clear and natural English.
+    const data = await response.json();
 
-        Pupil name: ${formData.name}
-        Class: ${formData.className}
-        Strengths: ${formData.strengths}
-        Areas for improvement: ${formData.weaknesses}
-        Behaviour/attitude: ${formData.behaviour}
-        Other notes: ${formData.notes}
-
-        Guidelines:
-        1. Keep the comment between 2 and 4 sentences.
-        2. Use a positive and encouraging tone.
-        3. Mention the pupil by name once at the beginning.
-        4. Refer to the strengths directly.
-        5. Address the areas to improve without sounding harsh.
-        6. Avoid exaggerated praise or negative language.
-
-        Example input:
-        Name: Jalaludeen Adobanyi
-        Class: Primary 4
-        Strengths: good reading pace, active participation
-        Weaknesses: needs better handwriting, sometimes rushes tasks
-        Behaviour: polite and attentive
-        Notes: steady improvement this term
-
-        Expected output example:
-        "Jalaludeen has shown good progress in reading and participates actively during lessons. His attitude is polite and attentive. He will benefit from slowing down during written tasks and working on his handwriting. His overall improvement this term is encouraging."
-        
-        Generate the comment now:
-      `;
-
-      const response = await ai.models.generateContent({
-        model: 'gemini-2.5-flash',
-        contents: prompt,
-      });
-
-      const text = response.text;
-      if (text) {
-        setGeneratedComment(text.trim().replace(/^"|"$/g, ''));
-      }
-    } catch (err) {
-      console.error(err);
-      setError('Failed to generate comment. Please check your connection and try again.');
-    } finally {
-      setLoading(false);
+    if (data.text) {
+      setGeneratedComment(data.text.trim().replace(/^"|"$/g, ''));
+    } else {
+      setError("No response received from the model.");
     }
-  };
+
+  } catch (err) {
+    console.error(err);
+    setError('Failed to generate comment. Please try again.');
+  } finally {
+    setLoading(false);
+  }
+};
 
   return (
     <div className="min-h-screen bg-slate-50 text-slate-900 font-sans selection:bg-indigo-100 selection:text-indigo-900">
