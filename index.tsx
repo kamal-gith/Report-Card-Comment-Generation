@@ -16,6 +16,7 @@ const App = () => {
   const [loading, setLoading] = useState(false);
   const [copied, setCopied] = useState(false);
   const [error, setError] = useState('');
+  const [tone, setTone] = useState('encouraging');
 
   const handleInputChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
     const { name, value } = e.target;
@@ -55,6 +56,8 @@ const App = () => {
     const prompt = `
     Task: Write a short end-of-term report comment for a pupil. Use clear and natural English.
 
+    Tone: ${tone.replace('-', ' ')}
+
     Pupil name: ${formData.name}
     Class: ${formData.className}
     Strengths: ${formData.strengths}
@@ -64,7 +67,7 @@ const App = () => {
 
     Guidelines:
     1. Keep the comment between 2 and 4 sentences.
-    2. Use a positive and encouraging tone.
+    2. Use the stated tone consistently.
     3. Mention the pupil by name once at the beginning.
     4. Refer to the strengths directly.
     5. Address the areas to improve without sounding harsh.
@@ -74,7 +77,7 @@ const App = () => {
     const response = await fetch("/api/generate", {
       method: "POST",
       headers: { "Content-Type": "application/json" },
-      body: JSON.stringify({ prompt }),
+      body: JSON.stringify({ prompt, tone }),
     });
 
     if (!response.ok) {
@@ -172,7 +175,7 @@ const App = () => {
                         </div>
 
                         <div className="space-y-1.5">
-                            <label className="text-xs font-semibold text-slate-500 uppercase tracking-wider">Areas for Improvement</label>
+                            <label className="text-xs font-semibold text-slate-500 uppercase tracking-wider">Areas for Improvement*</label>
                             <textarea
                                 name="weaknesses"
                                 value={formData.weaknesses}
@@ -209,6 +212,24 @@ const App = () => {
                         </div>
                     </div>
                 </div>
+
+
+                <div>
+                    <label className="block text-sm font-medium mb-1">
+                        Comment tone
+                    </label>
+                    <select
+                        value={tone}
+                        onChange={(e) => setTone(e.target.value)}
+                        className="w-full border rounded px-3 py-2"
+                    >
+                        <option value="encouraging">Encouraging</option>
+                        <option value="firm-supportive">Firm but supportive</option>
+                        <option value="outstanding">Outstanding performance</option>
+                        <option value="needs-improvement">Needs improvement</option>
+                    </select>
+                </div>
+
 
                  <button
                     onClick={generateReport}
