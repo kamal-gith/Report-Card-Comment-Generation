@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import { createRoot } from 'react-dom/client';
 
-import { Loader2, Copy, Check, Sparkles, GraduationCap, RefreshCcw, BookOpen, Wand2 } from 'lucide-react';
+import { Loader2, Copy, Check, Sparkles, GraduationCap, RefreshCcw, BookOpen, Wand2, X } from 'lucide-react';
 
 
 const Confetti = () => {
@@ -22,6 +22,14 @@ const Confetti = () => {
   );
 };
 
+const EXAMPLE_DATA = {
+  name: 'Jalaludeen Adobanyi',
+  className: 'Primary 1',
+  strengths: 'good reading pace, active participation',
+  weaknesses: 'needs better handwriting, sometimes rushes tasks',
+  behaviour: 'polite and attentive',
+  notes: 'steady improvement this term'
+};
 
 const App = () => {
   const [formData, setFormData] = useState({
@@ -48,16 +56,27 @@ const App = () => {
   const [showConfetti, setShowConfetti] = useState(false);
 
   const fillExample = () => {
+  const isExampleLoaded =
+    formData.name === EXAMPLE_DATA.name &&
+    formData.className === EXAMPLE_DATA.className &&
+    formData.strengths === EXAMPLE_DATA.strengths &&
+    formData.weaknesses === EXAMPLE_DATA.weaknesses;
+
+  if (isExampleLoaded) {
     setFormData({
-      name: 'Jalaludeen Adobanyi',
-      className: 'Primary 1',
-      strengths: 'good reading pace, active participation',
-      weaknesses: 'needs better handwriting, sometimes rushes tasks',
-      behaviour: 'polite and attentive',
-      notes: 'steady improvement this term'
+      name: '',
+      className: '',
+      strengths: '',
+      weaknesses: '',
+      behaviour: '',
+      notes: ''
     });
-    setError('');
-  };
+  } else {
+    setFormData(EXAMPLE_DATA);
+  }
+
+  setError('');
+};
 
   const handleCopy = () => {
     if (!generatedComment) return;
@@ -168,8 +187,16 @@ const App = () => {
                             onClick={fillExample}
                             className="text-xs font-medium text-indigo-600 hover:text-indigo-700 bg-indigo-50 hover:bg-indigo-100 px-3 py-1.5 rounded-full transition-colors flex items-center gap-1"
                         >
-                            <Wand2 className="w-3 h-3" />
-                            Load Example
+                            {formData.name === EXAMPLE_DATA.name ? (
+                                <>
+                                    <X className="w-3 h-3" />
+                                    Clear Example
+                                </>
+                                 ) : (
+                                    <> 
+                                        <Wand2 className="w-3 h-3" /> 
+                                        Load Example 
+                                    </>)}
                         </button>
                     </div>
                     
