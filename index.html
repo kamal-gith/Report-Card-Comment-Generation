@@ -4,7 +4,30 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Report Comments Builder AI</title>
-    <script src="https://cdn.tailwindcss.com"></script>
+   <script>
+  tailwind.config = {
+    theme: {
+      extend: {
+        keyframes: {
+          confetti: {
+            '0%': {
+              transform: 'translateY(-10px) rotate(0deg)',
+              opacity: '1'
+            },
+            '100%': {
+              transform: 'translateY(90vh) rotate(360deg)',
+              opacity: '0'
+            }
+          }
+        },
+        animation: {
+          confetti: 'confetti 1.6s ease-out forwards'
+        }
+      }
+    }
+  }
+</script>
+<script src="https://cdn.tailwindcss.com"></script>
     <script type="importmap">
     {
       "imports": {

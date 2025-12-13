@@ -3,6 +3,26 @@ import { createRoot } from 'react-dom/client';
 
 import { Loader2, Copy, Check, Sparkles, GraduationCap, RefreshCcw, BookOpen, Wand2 } from 'lucide-react';
 
+
+const Confetti = () => {
+  return (
+    <div className="pointer-events-none fixed inset-0 z-40 overflow-hidden">
+      {Array.from({ length: 24 }).map((_, i) => (
+        <span
+          key={i}
+          className="absolute top-0 w-2 h-2 rounded-full animate-confetti"
+          style={{
+            left: `${Math.random() * 100}%`,
+            backgroundColor: ['#6366f1', '#a855f7', '#ec4899', '#22c55e'][i % 4],
+            animationDelay: `${Math.random() * 0.6}s`
+          }}
+        />
+      ))}
+    </div>
+  );
+};
+
+
 const App = () => {
   const [formData, setFormData] = useState({
     name: '',
@@ -25,6 +45,7 @@ const App = () => {
 
   const hasOutput = Boolean(generatedComment);
   const [showToast, setShowToast] = useState(false);
+  const [showConfetti, setShowConfetti] = useState(false);
 
   const fillExample = () => {
     setFormData({
@@ -95,6 +116,8 @@ const App = () => {
         setGeneratedComment(data.text.trim().replace(/^"|"$/g, ''));
         setShowToast(true);
         setTimeout(() => setShowToast(false), 2500);
+        setShowConfetti(true);
+        setTimeout(() => setShowConfetti(false), 1800);
     }
     } else {
       setError("No response received from the model.");
@@ -310,7 +333,9 @@ const App = () => {
     )}
             
         </main>
-    {showToast && (
+    {showConfetti && <Confetti />}
+
+{showToast && (
   <div className="fixed bottom-6 left-1/2 -translate-x-1/2 z-50">
     <div className="flex items-center gap-2 px-4 py-2 rounded-full bg-slate-900 text-slate-100 text-sm shadow-lg">
       <Check className="w-4 h-4 text-emerald-400" />
