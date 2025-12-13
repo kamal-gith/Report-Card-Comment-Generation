@@ -23,6 +23,8 @@ const App = () => {
     setFormData(prev => ({ ...prev, [name]: value }));
   };
 
+  const hasOutput = Boolean(generatedComment);
+
   const fillExample = () => {
     setFormData({
       name: 'Jalaludeen Adobanyi',
@@ -116,9 +118,10 @@ const App = () => {
             </div>
         </header>
 
-        <main className="max-w-5xl mx-auto p-4 md:p-8 grid md:grid-cols-2 gap-8">
+        <main className={`max-w-5xl mx-auto p-4 md:p-8 gap-8 ${
+            hasOutput? 'grid md:grid-cols-2' : 'flex justify-center'}`}>
             {/* Input Form */}
-            <div className="space-y-6">
+            <div className={`space-y-6 w-full ${!hasOutput ? 'max-w-xl' : ''}`}>
                 <div className="bg-white rounded-2xl shadow-sm border border-slate-200 p-6">
                     <div className="flex items-center justify-between mb-6 pb-4 border-b border-slate-100">
                         <div className="flex items-center gap-2">
@@ -251,65 +254,53 @@ const App = () => {
                 {error && <div className="p-3 bg-red-50 text-red-600 text-sm rounded-lg text-center">{error}</div>}
             </div>
 
-            {/* Output Section */}
-            <div className="space-y-6">
-                 <div className="bg-white rounded-2xl shadow-sm border border-slate-200 p-6 h-full flex flex-col relative overflow-hidden">
-                    <div className="absolute top-0 left-0 w-full h-1.5 bg-gradient-to-r from-indigo-500 via-purple-500 to-pink-500"></div>
-                    <div className="flex items-center justify-between mb-6">
-                        <h2 className="text-lg font-semibold text-slate-800">Generated Comment</h2>
-                         {generatedComment && (
-                            <button
-                                onClick={handleCopy}
-                                className="text-xs flex items-center gap-1.5 text-indigo-600 hover:text-indigo-700 bg-indigo-50 hover:bg-indigo-100 px-3 py-1.5 rounded-full transition-colors font-medium border border-indigo-100"
-                            >
-                                {copied ? <Check className="w-3.5 h-3.5" /> : <Copy className="w-3.5 h-3.5" />}
-                                {copied ? 'Copied' : 'Copy'}
-                            </button>
-                        )}
-                    </div>
-                    
-                    <div className="flex-grow">
-                         {generatedComment ? (
-                            <div className="prose prose-slate max-w-none">
-                                <div className="p-6 bg-slate-50 rounded-xl border border-slate-100 relative">
-                                    <div className="absolute -top-3 left-4 bg-white px-2 text-slate-400">
-                                        <span className="text-2xl font-serif">“</span>
-                                    </div>
-                                    <p className="text-lg leading-relaxed text-slate-700 font-medium italic">{generatedComment}</p>
-                                    <div className="absolute -bottom-5 right-4 bg-white px-2 text-slate-400">
-                                        <span className="text-2xl font-serif">”</span>
-                                    </div>
-                                </div>
-                            </div>
-                        ) : (
-                            <div className="h-full flex flex-col items-center justify-center text-slate-400 gap-4 min-h-[300px] border-2 border-dashed border-slate-100 rounded-xl">
-                                <div className="w-16 h-16 rounded-full bg-slate-50 flex items-center justify-center">
-                                    <BookOpen className="w-8 h-8 text-slate-300" />
-                                </div>
-                                <div className="text-center max-w-[240px] space-y-1">
-                                    <p className="text-sm font-medium text-slate-500">Ready to write</p>
-                                    <p className="text-xs">
-                                        Fill in the student details on the left and click Generate to create a report comment.
-                                    </p>
-                                </div>
-                            </div>
-                        )}
-                    </div>
-                    
-                    {generatedComment && (
-                         <div className="mt-8 pt-6 border-t border-slate-100 flex justify-between items-center text-xs text-slate-400 font-medium">
-                             <span>{generatedComment.split(' ').length} words</span>
-                             <button 
-                                onClick={generateReport}
-                                className="flex items-center gap-1.5 hover:text-indigo-600 transition-colors"
-                             >
-                                 <RefreshCcw className="w-3.5 h-3.5" />
-                                 Regenerate
-                             </button>
-                         </div>
-                    )}
-                 </div>
+                {/* Output Section */}
+    {generatedComment && (
+    <div className="space-y-6">
+        <div className="bg-white rounded-2xl shadow-sm border border-slate-200 p-6 h-full flex flex-col relative overflow-hidden">
+        <div className="absolute top-0 left-0 w-full h-1.5 bg-gradient-to-r from-indigo-500 via-purple-500 to-pink-500"></div>
+
+        <div className="flex items-center justify-between mb-6">
+            <h2 className="text-lg font-semibold text-slate-800">Generated Comment</h2>
+            <button
+            onClick={handleCopy}
+            className="text-xs flex items-center gap-1.5 text-indigo-600 hover:text-indigo-700 bg-indigo-50 hover:bg-indigo-100 px-3 py-1.5 rounded-full transition-colors font-medium border border-indigo-100"
+            >
+            {copied ? <Check className="w-3.5 h-3.5" /> : <Copy className="w-3.5 h-3.5" />}
+            {copied ? 'Copied' : 'Copy'}
+            </button>
+        </div>
+
+        <div className="flex-grow">
+            <div className="prose prose-slate max-w-none">
+            <div className="p-6 bg-slate-50 rounded-xl border border-slate-100 relative">
+                <div className="absolute -top-3 left-4 bg-white px-2 text-slate-400">
+                <span className="text-2xl font-serif">“</span>
+                </div>
+                <p className="text-lg leading-relaxed text-slate-700 font-medium italic">
+                {generatedComment}
+                </p>
+                <div className="absolute -bottom-5 right-4 bg-white px-2 text-slate-400">
+                <span className="text-2xl font-serif">”</span>
+                </div>
             </div>
+            </div>
+        </div>
+
+        <div className="mt-8 pt-6 border-t border-slate-100 flex justify-between items-center text-xs text-slate-400 font-medium">
+            <span>{generatedComment.split(' ').length} words</span>
+            <button
+            onClick={generateReport}
+            className="flex items-center gap-1.5 hover:text-indigo-600 transition-colors"
+            >
+            <RefreshCcw className="w-3.5 h-3.5" />
+            Regenerate
+            </button>
+        </div>
+        </div>
+    </div>
+    )}
+            
         </main>
     </div>
   );
