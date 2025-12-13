@@ -24,6 +24,7 @@ const App = () => {
   };
 
   const hasOutput = Boolean(generatedComment);
+  const [showToast, setShowToast] = useState(false);
 
   const fillExample = () => {
     setFormData({
@@ -90,6 +91,11 @@ const App = () => {
 
     if (data.text) {
       setGeneratedComment(data.text.trim().replace(/^"|"$/g, ''));
+      if (data.text) {
+        setGeneratedComment(data.text.trim().replace(/^"|"$/g, ''));
+        setShowToast(true);
+        setTimeout(() => setShowToast(false), 2500);
+    }
     } else {
       setError("No response received from the model.");
     }
@@ -100,6 +106,8 @@ const App = () => {
   } finally {
     setLoading(false);
   }
+
+  
 };
 
   return (
@@ -302,6 +310,16 @@ const App = () => {
     )}
             
         </main>
+    {showToast && (
+  <div className="fixed bottom-6 left-1/2 -translate-x-1/2 z-50">
+    <div className="flex items-center gap-2 px-4 py-2 rounded-full bg-slate-900 text-slate-100 text-sm shadow-lg">
+      <Check className="w-4 h-4 text-emerald-400" />
+      <span>Comment generated</span>
+    </div>
+  </div>
+)}
+
+
     </div>
   );
 };
