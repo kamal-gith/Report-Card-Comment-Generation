@@ -1,7 +1,7 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { createRoot } from 'react-dom/client';
 
-import { Loader2, Copy, Check, Sparkles, GraduationCap, RefreshCcw, BookOpen, Wand2, X } from 'lucide-react';
+import { Loader2, Copy, Check, Sparkles, GraduationCap, RefreshCcw, BookOpen, Wand2, X, Sun, Moon } from 'lucide-react';
 
 
 const Confetti = () => {
@@ -42,6 +42,12 @@ const App = () => {
   const [copied, setCopied] = useState(false);
   const [error, setError] = useState('');
   const [tone, setTone] = useState('encouraging');
+  const [theme, setTheme] = useState(() => {
+    if (typeof window !== 'undefined') {
+      return localStorage.getItem('theme') || 'light';
+    }
+    return 'light';
+  });
 
   const handleInputChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
     const { name, value } = e.target;
@@ -51,6 +57,20 @@ const App = () => {
   const hasOutput = Boolean(generatedComment);
   const [showToast, setShowToast] = useState(false);
   const [showConfetti, setShowConfetti] = useState(false);
+
+  useEffect(() => {
+    const root = window.document.documentElement;
+    if (theme === 'dark') {
+      root.classList.add('dark');
+    } else {
+      root.classList.remove('dark');
+    }
+    localStorage.setItem('theme', theme);
+  }, [theme]);
+
+  const toggleTheme = () => {
+    setTheme(prev => prev === 'light' ? 'dark' : 'light');
+  };
 
   const fillExample = () => {
   const isExampleLoaded =
@@ -119,13 +139,10 @@ const App = () => {
 
     if (data.text) {
       setGeneratedComment(data.text.trim().replace(/^"|"$/g, ''));
-      if (data.text) {
-        setGeneratedComment(data.text.trim().replace(/^"|"$/g, ''));
-        setShowToast(true);
-        setTimeout(() => setShowToast(false), 2500);
-        setShowConfetti(true);
-        setTimeout(() => setShowConfetti(false), 1800);
-    }
+      setShowToast(true);
+      setTimeout(() => setShowToast(false), 2500);
+      setShowConfetti(true);
+      setTimeout(() => setShowConfetti(false), 1800);
     } else {
       setError("No response received from the model.");
     }
@@ -141,39 +158,58 @@ const App = () => {
 };
 
   return (
-    <div className="min-h-screen bg-slate-50 text-slate-900 font-sans selection:bg-indigo-100 selection:text-indigo-900">
+    <div className="min-h-screen bg-slate-50 dark:bg-slate-950 text-slate-900 dark:text-slate-100 font-sans selection:bg-indigo-100 selection:text-indigo-900 transition-colors duration-200">
         {/* Header */}
-        <header className="bg-white border-b border-slate-200 sticky top-0 z-10">
-            <div className="max-w-5xl mx-auto px-4 py-3 flex flex-col sm:flex-row sm:items-center sm:justify-between gap-2">
-                <div className="flex items-center gap-2 text-indigo-600">
-                <BookOpen className="w-6 h-6" />
-                <h1 className="text-lg sm:text-xl font-bold tracking-tight">
-                    Report Comment Assistant
-                </h1>
-                </div>
+        <header className="bg-white dark:bg-slate-900 border-b border-slate-200 dark:border-slate-800 sticky top-0 z-10 transition-colors duration-200">
+  <div className="max-w-5xl mx-auto px-4 py-3">
+    
+    {/* Top row */}
+    <div className="flex items-center justify-between">
+      <div className="flex items-center gap-2 text-indigo-600 dark:text-indigo-400">
+        <BookOpen className="w-6 h-6" />
+        <h1 className="text-lg sm:text-xl font-bold tracking-tight">
+          Report Comment Assistant
+        </h1>
+      </div>
 
-                <div className="text-xs sm:text-sm text-slate-500 flex items-center gap-2">
-                <Sparkles className="w-4 h-4 text-amber-500" />
-                <span>… from Spring Ed Consulting</span>
-                </div>
-            </div>
-        </header>
+      {/* Theme toggle stays with title */}
+      <button
+        onClick={toggleTheme}
+        className="p-2 rounded-full bg-slate-100 dark:bg-slate-800 text-slate-600 dark:text-slate-400 hover:bg-slate-200 dark:hover:bg-slate-700 transition-colors"
+        aria-label="Toggle theme"
+      >
+        {theme === 'light'
+          ? <Moon className="w-5 h-5" />
+          : <Sun className="w-5 h-5" />
+        }
+      </button>
+    </div>
+
+    {/* Second row: stacks under title on mobile */}
+    <div className="mt-1 text-xs sm:text-sm text-slate-500 dark:text-slate-400 flex items-center gap-2 sm:justify-end">
+      <Sparkles className="w-4 h-4 text-amber-500" />
+      <span>… from Spring Ed Consulting</span>
+    </div>
+
+  </div>
+</header>
+
 
         <main className={`max-w-5xl mx-auto p-4 md:p-8 gap-8 pb-24 ${
             hasOutput? 'grid md:grid-cols-2' : 'flex justify-center'}`}>
             {/* Input Form */}
             <div className={`space-y-6 w-full ${!hasOutput ? 'max-w-xl' : ''}`}>
-                <div className="bg-white rounded-2xl shadow-sm border border-slate-200 p-6">
-                    <div className="flex items-center justify-between mb-6 pb-4 border-b border-slate-100">
+                <div className="bg-white dark:bg-slate-900 rounded-2xl shadow-sm border border-slate-200 dark:border-slate-800 p-6 transition-colors duration-200">
+                    <div className="flex items-center justify-between mb-6 pb-4 border-b border-slate-100 dark:border-slate-800">
                         <div className="flex items-center gap-2">
-                            <div className="w-8 h-8 rounded-lg bg-indigo-100 flex items-center justify-center text-indigo-600">
+                            <div className="w-8 h-8 rounded-lg bg-indigo-100 dark:bg-indigo-900/30 flex items-center justify-center text-indigo-600 dark:text-indigo-400">
                                 <GraduationCap className="w-5 h-5" />
                             </div>
-                            <h2 className="text-lg font-semibold text-slate-800">Student Details</h2>
+                            <h2 className="text-lg font-semibold text-slate-800 dark:text-slate-100">Student Details</h2>
                         </div>
                         <button 
                             onClick={fillExample}
-                            className="text-xs font-medium text-indigo-600 hover:text-indigo-700 bg-indigo-50 hover:bg-indigo-100 px-3 py-1.5 rounded-full transition-colors flex items-center gap-1"
+                            className="text-xs font-medium text-indigo-600 dark:text-indigo-400 hover:text-indigo-700 dark:hover:text-indigo-300 bg-indigo-50 dark:bg-indigo-900/20 hover:bg-indigo-100 dark:hover:bg-indigo-900/40 px-3 py-1.5 rounded-full transition-colors flex items-center gap-1"
                         >
                             {formData.name === EXAMPLE_DATA.name ? (
                                 <>
@@ -194,38 +230,38 @@ const App = () => {
                     <div className="space-y-5">
                     
                         <div className="space-y-1.5">
-                            <label className="text-xs font-semibold text-slate-500 uppercase tracking-wider">Name *</label>
+                            <label className="text-xs font-semibold text-slate-500 dark:text-slate-400 uppercase tracking-wider">Name *</label>
                             <input
                                 type="text"
                                 name="name"
                                 value={formData.name}
                                 onChange={handleInputChange}
                                 placeholder="e.g. Jalaludeen Adobanyi"
-                                className="w-full px-3 py-2.5 bg-slate-50 border border-slate-200 rounded-lg focus:outline-none focus:ring-2 focus:ring-indigo-500/20 focus:border-indigo-500 transition-all text-sm"
+                                className="w-full px-3 py-2.5 bg-slate-50 dark:bg-slate-950 border border-slate-200 dark:border-slate-700 rounded-lg focus:outline-none focus:ring-2 focus:ring-indigo-500/20 focus:border-indigo-500 dark:focus:border-indigo-500 transition-all text-sm dark:text-slate-100"
                             />
                         </div>
 
                         <div className="space-y-1.5">
-                            <label className="text-xs font-semibold text-slate-500 uppercase tracking-wider">Strengths *</label>
+                            <label className="text-xs font-semibold text-slate-500 dark:text-slate-400 uppercase tracking-wider">Strengths *</label>
                             <textarea
                                 name="strengths"
                                 value={formData.strengths}
                                 onChange={handleInputChange}
                                 rows={2}
                                 placeholder="e.g. good reading pace, active participation..."
-                                className="w-full px-3 py-2.5 bg-slate-50 border border-slate-200 rounded-lg focus:outline-none focus:ring-2 focus:ring-indigo-500/20 focus:border-indigo-500 transition-all resize-none text-sm"
+                                className="w-full px-3 py-2.5 bg-slate-50 dark:bg-slate-950 border border-slate-200 dark:border-slate-700 rounded-lg focus:outline-none focus:ring-2 focus:ring-indigo-500/20 focus:border-indigo-500 dark:focus:border-indigo-500 transition-all resize-none text-sm dark:text-slate-100"
                             />
                         </div>
 
                         <div className="space-y-1.5">
-                            <label className="text-xs font-semibold text-slate-500 uppercase tracking-wider">Areas for Improvement*</label>
+                            <label className="text-xs font-semibold text-slate-500 dark:text-slate-400 uppercase tracking-wider">Areas for Improvement*</label>
                             <textarea
                                 name="weaknesses"
                                 value={formData.weaknesses}
                                 onChange={handleInputChange}
                                 rows={2}
                                 placeholder="e.g. needs better handwriting, sometimes rushes tasks..."
-                                className="w-full px-3 py-2.5 bg-slate-50 border border-slate-200 rounded-lg focus:outline-none focus:ring-2 focus:ring-indigo-500/20 focus:border-indigo-500 transition-all resize-none text-sm"
+                                className="w-full px-3 py-2.5 bg-slate-50 dark:bg-slate-950 border border-slate-200 dark:border-slate-700 rounded-lg focus:outline-none focus:ring-2 focus:ring-indigo-500/20 focus:border-indigo-500 dark:focus:border-indigo-500 transition-all resize-none text-sm dark:text-slate-100"
                             />
                         </div>
 
@@ -235,13 +271,13 @@ const App = () => {
 
 
                 <div>
-                    <label className="block text-sm font-medium mb-1">
+                    <label className="block text-sm font-medium mb-1 text-slate-700 dark:text-slate-300">
                         Comment tone
                     </label>
                     <select
                         value={tone}
                         onChange={(e) => setTone(e.target.value)}
-                        className="w-full border rounded px-3 py-2"
+                        className="w-full border border-slate-200 dark:border-slate-700 rounded px-3 py-2 bg-white dark:bg-slate-900 text-slate-900 dark:text-slate-100 focus:outline-none focus:ring-2 focus:ring-indigo-500/20 focus:border-indigo-500"
                     >
                         <option value="encouraging">Encouraging</option>
                         <option value="firm-supportive">Firm but supportive</option>
@@ -254,7 +290,7 @@ const App = () => {
                  <button
                     onClick={generateReport}
                     disabled={loading || !formData.name}
-                    className="w-full py-3.5 px-4 bg-indigo-600 hover:bg-indigo-700 disabled:bg-slate-300 disabled:cursor-not-allowed text-white font-medium rounded-xl shadow-lg shadow-indigo-500/20 transition-all flex items-center justify-center gap-2"
+                    className="w-full py-3.5 px-4 bg-indigo-600 hover:bg-indigo-700 dark:bg-indigo-600 dark:hover:bg-indigo-500 disabled:bg-slate-300 dark:disabled:bg-slate-700 disabled:cursor-not-allowed text-white font-medium rounded-xl shadow-lg shadow-indigo-500/20 transition-all flex items-center justify-center gap-2"
                 >
                     {loading ? (
                         <>
@@ -268,20 +304,20 @@ const App = () => {
                         </>
                     )}
                 </button>
-                {error && <div className="p-3 bg-red-50 text-red-600 text-sm rounded-lg text-center">{error}</div>}
+                {error && <div className="p-3 bg-red-50 dark:bg-red-900/20 text-red-600 dark:text-red-400 text-sm rounded-lg text-center border border-red-100 dark:border-red-900/30">{error}</div>}
             </div>
 
                 {/* Output Section */}
     {generatedComment && (
     <div className="space-y-6">
-        <div className="bg-white rounded-2xl shadow-sm border border-slate-200 p-6 h-full flex flex-col relative overflow-hidden">
+        <div className="bg-white dark:bg-slate-900 rounded-2xl shadow-sm border border-slate-200 dark:border-slate-800 p-6 h-full flex flex-col relative overflow-hidden transition-colors duration-200">
         <div className="absolute top-0 left-0 w-full h-1.5 bg-gradient-to-r from-indigo-500 via-purple-500 to-pink-500"></div>
 
         <div className="flex items-center justify-between mb-6">
-            <h2 className="text-lg font-semibold text-slate-800">Generated Comment</h2>
+            <h2 className="text-lg font-semibold text-slate-800 dark:text-slate-100">Generated Comment</h2>
             <button
             onClick={handleCopy}
-            className="text-xs flex items-center gap-1.5 text-indigo-600 hover:text-indigo-700 bg-indigo-50 hover:bg-indigo-100 px-3 py-1.5 rounded-full transition-colors font-medium border border-indigo-100"
+            className="text-xs flex items-center gap-1.5 text-indigo-600 dark:text-indigo-400 hover:text-indigo-700 dark:hover:text-indigo-300 bg-indigo-50 dark:bg-indigo-900/20 hover:bg-indigo-100 dark:hover:bg-indigo-900/40 px-3 py-1.5 rounded-full transition-colors font-medium border border-indigo-100 dark:border-indigo-900/30"
             >
             {copied ? <Check className="w-3.5 h-3.5" /> : <Copy className="w-3.5 h-3.5" />}
             {copied ? 'Copied' : 'Copy'}
@@ -289,26 +325,26 @@ const App = () => {
         </div>
 
         <div className="flex-grow">
-            <div className="prose prose-slate max-w-none">
-            <div className="p-6 bg-slate-50 rounded-xl border border-slate-100 relative">
-                <div className="absolute -top-3 left-4 bg-white px-2 text-slate-400">
+            <div className="prose prose-slate dark:prose-invert max-w-none">
+            <div className="p-6 bg-slate-50 dark:bg-slate-950/50 rounded-xl border border-slate-100 dark:border-slate-800 relative">
+                <div className="absolute -top-3 left-4 bg-white dark:bg-slate-900 px-2 text-slate-400 dark:text-slate-500">
                 <span className="text-2xl font-serif">“</span>
                 </div>
-                <p className="text-lg leading-relaxed text-slate-700 font-medium italic">
+                <p className="text-lg leading-relaxed text-slate-700 dark:text-slate-300 font-medium italic">
                 {generatedComment}
                 </p>
-                <div className="absolute -bottom-5 right-4 bg-white px-2 text-slate-400">
+                <div className="absolute -bottom-5 right-4 bg-white dark:bg-slate-900 px-2 text-slate-400 dark:text-slate-500">
                 <span className="text-2xl font-serif">”</span>
                 </div>
             </div>
             </div>
         </div>
 
-        <div className="mt-8 pt-6 border-t border-slate-100 flex justify-between items-center text-xs text-slate-400 font-medium">
+        <div className="mt-8 pt-6 border-t border-slate-100 dark:border-slate-800 flex justify-between items-center text-xs text-slate-400 font-medium">
             <span>{generatedComment.split(' ').length} words</span>
             <button
             onClick={generateReport}
-            className="flex items-center gap-1.5 hover:text-indigo-600 transition-colors"
+            className="flex items-center gap-1.5 hover:text-indigo-600 dark:hover:text-indigo-400 transition-colors"
             >
             <RefreshCcw className="w-3.5 h-3.5" />
             Regenerate
@@ -323,15 +359,15 @@ const App = () => {
 
 {showToast && (
   <div className="fixed bottom-6 left-1/2 -translate-x-1/2 z-50">
-    <div className="flex items-center gap-2 px-4 py-2 rounded-full bg-slate-900 text-slate-100 text-sm shadow-lg">
+    <div className="flex items-center gap-2 px-4 py-2 rounded-full bg-slate-900 dark:bg-slate-700 text-slate-100 text-sm shadow-lg border border-slate-800 dark:border-slate-600">
       <Check className="w-4 h-4 text-emerald-400" />
       <span>Comment generated</span>
     </div>
   </div>
 )}
  
-        <footer className="sticky bottom-0 border-t border-slate-200 bg-white">
-        <div className="max-w-5xl mx-auto px-4 py-4 text-center text-xs text-slate-500 leading-relaxed">
+        <footer className="sticky bottom-0 border-t border-slate-200 dark:border-slate-800 bg-white dark:bg-slate-900 transition-colors duration-200">
+        <div className="max-w-5xl mx-auto px-4 py-4 text-center text-xs text-slate-500 dark:text-slate-400 leading-relaxed">
           <p>
             Privacy note: This tool does not collect, store, or retain any user data.
             All information entered is used only to generate the report comment and is
