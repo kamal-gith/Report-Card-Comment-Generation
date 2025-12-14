@@ -160,35 +160,54 @@ const App = () => {
   return (
     <div className="min-h-screen bg-slate-50 dark:bg-slate-950 text-slate-900 dark:text-slate-100 font-sans selection:bg-indigo-100 selection:text-indigo-900 transition-colors duration-200">
         {/* Header */}
+        
         <header className="bg-white dark:bg-slate-900 border-b border-slate-200 dark:border-slate-800 sticky top-0 z-10 transition-colors duration-200">
   <div className="max-w-5xl mx-auto px-4 py-3">
-    
-    {/* Top row */}
-    <div className="flex items-center justify-between">
-      <div className="flex items-center gap-2 text-indigo-600 dark:text-indigo-400">
-        <BookOpen className="w-6 h-6" />
-        <h1 className="text-lg sm:text-xl font-bold tracking-tight">
-          Report Comment Assistant
-        </h1>
+
+    <div className="grid grid-cols-1 sm:grid-cols-3 items-center gap-2">
+
+      {/* Left block: title + toggle stay together on mobile */}
+      <div className="flex items-center justify-between sm:justify-start gap-2 text-indigo-600 dark:text-indigo-400">
+        <div className="flex items-center gap-2">
+          <BookOpen className="w-6 h-6" />
+          <h1 className="text-lg sm:text-xl font-bold tracking-tight">
+            Report Comment Assistant
+          </h1>
+        </div>
+
+        {/* Toggle stays inline with title on mobile */}
+        <button
+          onClick={toggleTheme}
+          className="p-2 rounded-full bg-slate-100 dark:bg-slate-800 text-slate-600 dark:text-slate-400 hover:bg-slate-200 dark:hover:bg-slate-700 transition-colors sm:hidden"
+          aria-label="Toggle theme"
+        >
+          {theme === 'light'
+            ? <Moon className="w-5 h-5" />
+            : <Sun className="w-5 h-5" />
+          }
+        </button>
       </div>
 
-      {/* Theme toggle stays with title */}
-      <button
-        onClick={toggleTheme}
-        className="p-2 rounded-full bg-slate-100 dark:bg-slate-800 text-slate-600 dark:text-slate-400 hover:bg-slate-200 dark:hover:bg-slate-700 transition-colors"
-        aria-label="Toggle theme"
-      >
-        {theme === 'light'
-          ? <Moon className="w-5 h-5" />
-          : <Sun className="w-5 h-5" />
-        }
-      </button>
-    </div>
+      {/* Middle: tagline */}
+      <div className="text-xs sm:text-sm text-slate-500 dark:text-slate-400 flex items-center gap-2 sm:justify-center">
+        <Sparkles className="w-4 h-4 text-amber-500" />
+        <span>… from Spring Ed Consulting</span>
+      </div>
 
-    {/* Second row: stacks under title on mobile */}
-    <div className="mt-1 text-xs sm:text-sm text-slate-500 dark:text-slate-400 flex items-center gap-2 sm:justify-end">
-      <Sparkles className="w-4 h-4 text-amber-500" />
-      <span>… from Spring Ed Consulting</span>
+      {/* Right: toggle for larger screens */}
+      <div className="hidden sm:flex justify-end">
+        <button
+          onClick={toggleTheme}
+          className="p-2 rounded-full bg-slate-100 dark:bg-slate-800 text-slate-600 dark:text-slate-400 hover:bg-slate-200 dark:hover:bg-slate-700 transition-colors"
+          aria-label="Toggle theme"
+        >
+          {theme === 'light'
+            ? <Moon className="w-5 h-5" />
+            : <Sun className="w-5 h-5" />
+          }
+        </button>
+      </div>
+
     </div>
 
   </div>
