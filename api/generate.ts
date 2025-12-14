@@ -1,29 +1,34 @@
 import { GoogleGenAI } from "@google/genai";
 
 export default async function handler(req, res) {
-  if (req.method !== "POST") {
-    return res.status(405).json({ error: "Method not allowed" });
-  }
-
   try {
     const { prompt, tone } = req.body;
 
-    if (!prompt) {
-      return res.status(400).json({ error: "Prompt is required" });
+    if (!process.env.API_KEY) {
+      throw new Error("API_KEY is missing");
     }
 
     const ai = new GoogleGenAI({
       apiKey: process.env.API_KEY,
     });
 
-    const response = await ai.models.generateContent({
+    const result = await ai.models.generateContent({
       model: "gemini-2.5-flash",
       contents: prompt,
     });
 
-    res.status(200).json({ text: response.text });
+    const text =
+      result?.candidates?.[0]?.content?.parts?.[0]?.text;
+
+    if (!text) {
+      throw new Error("No text returned from Gemini");
+    }
+
+    res.status(200).json({ text });
   } catch (err) {
-    console.error(err);
-    res.status(500).json({ error: "Generation failed" });
+    console.error("Gemini error:", err);
+    res.status(500).json({
+      error: err instanceof Error ? err.message : "Unknown error",
+    });
   }
 }

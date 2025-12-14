@@ -24,7 +24,6 @@ const Confetti = () => {
 
 const EXAMPLE_DATA = {
   name: 'Jalaludeen Adobanyi',
-  className: 'Primary 1',
   strengths: 'good reading pace, active participation',
   weaknesses: 'needs better handwriting, sometimes rushes tasks',
   behaviour: 'polite and attentive',
@@ -34,12 +33,10 @@ const EXAMPLE_DATA = {
 const App = () => {
   const [formData, setFormData] = useState({
     name: '',
-    className: '',
     strengths: '',
     weaknesses: '',
-    behaviour: '',
-    notes: ''
   });
+
   const [generatedComment, setGeneratedComment] = useState('');
   const [loading, setLoading] = useState(false);
   const [copied, setCopied] = useState(false);
@@ -58,18 +55,15 @@ const App = () => {
   const fillExample = () => {
   const isExampleLoaded =
     formData.name === EXAMPLE_DATA.name &&
-    formData.className === EXAMPLE_DATA.className &&
     formData.strengths === EXAMPLE_DATA.strengths &&
     formData.weaknesses === EXAMPLE_DATA.weaknesses;
 
   if (isExampleLoaded) {
     setFormData({
       name: '',
-      className: '',
       strengths: '',
       weaknesses: '',
-      behaviour: '',
-      notes: ''
+      
     });
   } else {
     setFormData(EXAMPLE_DATA);
@@ -98,16 +92,10 @@ const App = () => {
   try {
     const prompt = `
     Task: Write a short end-of-term report comment for a pupil. Use clear and natural English.
-
     Tone: ${tone.replace('-', ' ')}
-
     Pupil name: ${formData.name}
-    Class: ${formData.className}
     Strengths: ${formData.strengths}
     Areas for improvement: ${formData.weaknesses}
-    Behaviour/attitude: ${formData.behaviour}
-    Other notes: ${formData.notes}
-
     Guidelines:
     1. Keep the comment between 2 and 4 sentences.
     2. Use the stated tone consistently.
@@ -200,7 +188,11 @@ const App = () => {
                         </button>
                     </div>
                     
-                    <div className="grid grid-cols-2 gap-4 mb-5">
+                    
+                    
+
+                    <div className="space-y-5">
+                    
                         <div className="space-y-1.5">
                             <label className="text-xs font-semibold text-slate-500 uppercase tracking-wider">Name *</label>
                             <input
@@ -212,20 +204,7 @@ const App = () => {
                                 className="w-full px-3 py-2.5 bg-slate-50 border border-slate-200 rounded-lg focus:outline-none focus:ring-2 focus:ring-indigo-500/20 focus:border-indigo-500 transition-all text-sm"
                             />
                         </div>
-                        <div className="space-y-1.5">
-                            <label className="text-xs font-semibold text-slate-500 uppercase tracking-wider">Class</label>
-                            <input
-                                type="text"
-                                name="className"
-                                value={formData.className}
-                                onChange={handleInputChange}
-                                placeholder="e.g. Primary 1"
-                                className="w-full px-3 py-2.5 bg-slate-50 border border-slate-200 rounded-lg focus:outline-none focus:ring-2 focus:ring-indigo-500/20 focus:border-indigo-500 transition-all text-sm"
-                            />
-                        </div>
-                    </div>
 
-                    <div className="space-y-5">
                         <div className="space-y-1.5">
                             <label className="text-xs font-semibold text-slate-500 uppercase tracking-wider">Strengths *</label>
                             <textarea
@@ -250,30 +229,7 @@ const App = () => {
                             />
                         </div>
 
-                         <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
-                             <div className="space-y-1.5">
-                                <label className="text-xs font-semibold text-slate-500 uppercase tracking-wider">Behaviour</label>
-                                <input
-                                    type="text"
-                                    name="behaviour"
-                                    value={formData.behaviour}
-                                    onChange={handleInputChange}
-                                    placeholder="e.g. polite and attentive"
-                                    className="w-full px-3 py-2.5 bg-slate-50 border border-slate-200 rounded-lg focus:outline-none focus:ring-2 focus:ring-indigo-500/20 focus:border-indigo-500 transition-all text-sm"
-                                />
-                            </div>
-                            <div className="space-y-1.5">
-                                <label className="text-xs font-semibold text-slate-500 uppercase tracking-wider">Other Notes</label>
-                                <input
-                                    type="text"
-                                    name="notes"
-                                    value={formData.notes}
-                                    onChange={handleInputChange}
-                                    placeholder="e.g. steady improvement"
-                                    className="w-full px-3 py-2.5 bg-slate-50 border border-slate-200 rounded-lg focus:outline-none focus:ring-2 focus:ring-indigo-500/20 focus:border-indigo-500 transition-all text-sm"
-                                />
-                            </div>
-                        </div>
+                         
                     </div>
                 </div>
 
