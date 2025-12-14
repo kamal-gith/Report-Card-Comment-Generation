@@ -154,12 +154,12 @@ const App = () => {
 
                 <div className="text-xs sm:text-sm text-slate-500 flex items-center gap-2">
                 <Sparkles className="w-4 h-4 text-amber-500" />
-                <span>… from Kaso Global Technologies</span>
+                <span>… from Spring Ed Consulting</span>
                 </div>
             </div>
         </header>
 
-        <main className={`max-w-5xl mx-auto p-4 md:p-8 gap-8 ${
+        <main className={`max-w-5xl mx-auto p-4 md:p-8 gap-8 pb-24 ${
             hasOutput? 'grid md:grid-cols-2' : 'flex justify-center'}`}>
             {/* Input Form */}
             <div className={`space-y-6 w-full ${!hasOutput ? 'max-w-xl' : ''}`}>
@@ -329,7 +329,16 @@ const App = () => {
     </div>
   </div>
 )}
-
+ 
+        <footer className="sticky bottom-0 border-t border-slate-200 bg-white">
+        <div className="max-w-5xl mx-auto px-4 py-4 text-center text-xs text-slate-500 leading-relaxed">
+          <p>
+            Privacy note: This tool does not collect, store, or retain any user data.
+            All information entered is used only to generate the report comment and is
+            not saved or shared.
+          </p>
+        </div>
+      </footer>
 
     </div>
   );
