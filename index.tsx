@@ -1,5 +1,5 @@
 
-import React, { useState, useEffect, useRef } from 'react';
+import React, { useState, useEffect } from 'react';
 import { createRoot } from 'react-dom/client';
 
 import { 
@@ -33,7 +33,7 @@ const Confetti = () => {
           className="absolute top-0 w-2 h-2 rounded-full animate-confetti"
           style={{
             left: `${Math.random() * 100}%`,
-            backgroundColor: ['#6366f1', '#a855f7', '#ec4899', '#22c55e'][i % 4],
+            backgroundColor: ['#714B67', '#017E84', '#8F8F8F'][i % 3],
             animationDelay: `${Math.random() * 0.6}s`
           }}
         />
@@ -44,15 +44,15 @@ const Confetti = () => {
 
 const EXAMPLE_DATA = {
   name: 'Jalaludeen Adobanyi',
-  strengths: 'good reading pace, active participation',
-  weaknesses: 'needs better handwriting, sometimes rushes tasks',
+  strengths: 'excellent group work, deep analytical skills',
+  weaknesses: 'should focus on meeting deadlines, needs more drafting time',
 };
 
 const STEPS = [
-  { id: 'name', title: 'Student Name', icon: User, description: 'Who are we writing about?' },
-  { id: 'strengths', title: 'Strengths', icon: Zap, description: 'What did they excel at this term?' },
-  { id: 'weaknesses', title: 'Focus Areas', icon: Target, description: 'What can they improve upon?' },
-  { id: 'tone', title: 'Voice', icon: MessageSquare, description: 'Choose the tone of the comment.' },
+  { id: 'name', title: 'Student Name', icon: User, description: 'Enter the pupil name' },
+  { id: 'strengths', title: 'Strengths', icon: Zap, description: 'What are they good at?' },
+  { id: 'weaknesses', title: 'Focus Areas', icon: Target, description: 'Where can they improve?' },
+  { id: 'tone', title: 'Voice', icon: MessageSquare, description: 'Pick a report style' },
 ];
 
 const App = () => {
@@ -115,7 +115,7 @@ const App = () => {
 
   const fillExample = () => {
     setFormData(EXAMPLE_DATA);
-    setCurrentStep(3); // Go to final step to show results
+    setCurrentStep(3);
     setError('');
   };
 
@@ -128,7 +128,7 @@ const App = () => {
 
   const generateReport = async () => {
     if (!formData.name || !formData.strengths || !formData.weaknesses) {
-      setError('Please ensure all student details are filled before generating.');
+      setError('Missing information. Please complete all steps.');
       return;
     }
 
@@ -182,8 +182,8 @@ const App = () => {
 
   const isStepValid = () => {
     if (currentStep === 0) return formData.name.trim().length > 0;
-    if (currentStep === 1) return formData.strengths.trim().length > 3;
-    if (currentStep === 2) return formData.weaknesses.trim().length > 3;
+    if (currentStep === 1) return formData.strengths.trim().length > 2;
+    if (currentStep === 2) return formData.weaknesses.trim().length > 2;
     return true;
   };
 
@@ -194,8 +194,8 @@ const App = () => {
     switch (activeStepId) {
       case 'name':
         return (
-          <div className={`space-y-4 ${animationClass}`}>
-            <label className="block text-xs font-semibold text-slate-400 dark:text-slate-500 uppercase tracking-wider">Full Name</label>
+          <div className={`space-y-3 ${animationClass}`}>
+            <label className="block text-[10px] font-bold text-brand-gray uppercase tracking-widest">Student Full Name</label>
             <input
               autoFocus
               type="text"
@@ -204,62 +204,61 @@ const App = () => {
               onChange={handleInputChange}
               onKeyDown={(e) => e.key === 'Enter' && isStepValid() && nextStep()}
               placeholder="e.g. Jalaludeen Adobanyi"
-              className="w-full px-4 py-3 bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-800 rounded-xl focus:outline-none focus:ring-2 focus:ring-indigo-500/20 focus:border-indigo-500 transition-all text-base dark:text-slate-100 placeholder:text-slate-300 dark:placeholder:text-slate-700"
+              className="w-full px-4 py-3 bg-white dark:bg-zinc-900 border border-brand-gray/30 dark:border-zinc-800 rounded-xl focus:outline-none focus:ring-2 focus:ring-brand-primary/20 focus:border-brand-primary transition-all text-sm dark:text-white"
             />
           </div>
         );
       case 'strengths':
         return (
-          <div className={`space-y-4 ${animationClass}`}>
-            <label className="block text-xs font-semibold text-slate-400 dark:text-slate-500 uppercase tracking-wider">What are their strengths?</label>
+          <div className={`space-y-3 ${animationClass}`}>
+            <label className="block text-[10px] font-bold text-brand-gray uppercase tracking-widest">Notable Strengths</label>
             <textarea
               autoFocus
               name="strengths"
               value={formData.strengths}
               onChange={handleInputChange}
               rows={3}
-              placeholder="e.g. excellent collaboration, strong mathematical reasoning..."
-              className="w-full px-4 py-3 bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-800 rounded-xl focus:outline-none focus:ring-2 focus:ring-indigo-500/20 focus:border-indigo-500 transition-all resize-none text-base dark:text-slate-100 placeholder:text-slate-300 dark:placeholder:text-slate-700"
+              placeholder="What have they done well?"
+              className="w-full px-4 py-3 bg-white dark:bg-zinc-900 border border-brand-gray/30 dark:border-zinc-800 rounded-xl focus:outline-none focus:ring-2 focus:ring-brand-primary/20 focus:border-brand-primary transition-all resize-none text-sm dark:text-white"
             />
           </div>
         );
       case 'weaknesses':
         return (
-          <div className={`space-y-4 ${animationClass}`}>
-            <label className="block text-xs font-semibold text-slate-400 dark:text-slate-500 uppercase tracking-wider">Areas for growth?</label>
+          <div className={`space-y-3 ${animationClass}`}>
+            <label className="block text-[10px] font-bold text-brand-gray uppercase tracking-widest">Areas for growth</label>
             <textarea
               autoFocus
               name="weaknesses"
               value={formData.weaknesses}
               onChange={handleInputChange}
               rows={3}
-              placeholder="e.g. could work on punctuation, needs to participate more in class..."
-              className="w-full px-4 py-3 bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-800 rounded-xl focus:outline-none focus:ring-2 focus:ring-indigo-500/20 focus:border-indigo-500 transition-all resize-none text-base dark:text-slate-100 placeholder:text-slate-300 dark:placeholder:text-slate-700"
+              placeholder="What needs a bit more work?"
+              className="w-full px-4 py-3 bg-white dark:bg-zinc-900 border border-brand-gray/30 dark:border-zinc-800 rounded-xl focus:outline-none focus:ring-2 focus:ring-brand-primary/20 focus:border-brand-primary transition-all resize-none text-sm dark:text-white"
             />
           </div>
         );
       case 'tone':
         return (
-          <div className={`space-y-4 ${animationClass}`}>
-            <label className="block text-xs font-semibold text-slate-400 dark:text-slate-500 uppercase tracking-wider">Select Comment Tone</label>
-            <div className="grid grid-cols-1 sm:grid-cols-2 gap-2">
+          <div className={`space-y-3 ${animationClass}`}>
+            <label className="block text-[10px] font-bold text-brand-gray uppercase tracking-widest">Report Tone</label>
+            <div className="grid grid-cols-2 gap-2">
               {[
-                { id: 'encouraging', label: 'Encouraging', desc: 'Positive and motivating' },
-                { id: 'firm-supportive', label: 'Firm/Supportive', desc: 'Clear and direct' },
-                { id: 'outstanding', label: 'Outstanding', desc: 'Highly celebratory' },
-                { id: 'needs-improvement', label: 'Improvement', desc: 'Constructive focus' }
+                { id: 'encouraging', label: 'Motivating' },
+                { id: 'firm-supportive', label: 'Direct' },
+                { id: 'outstanding', label: 'Outstanding' },
+                { id: 'needs-improvement', label: 'Constructive' }
               ].map((t) => (
                 <button
                   key={t.id}
                   onClick={() => setTone(t.id)}
-                  className={`p-3 text-left rounded-xl border transition-all ${
+                  className={`p-3 text-center rounded-xl border transition-all text-xs font-semibold ${
                     tone === t.id 
-                      ? 'bg-indigo-600 border-indigo-600 text-white shadow-md shadow-indigo-500/20' 
-                      : 'bg-white dark:bg-slate-900 border-slate-200 dark:border-slate-800 text-slate-600 dark:text-slate-400 hover:border-indigo-400'
+                      ? 'bg-brand-primary border-brand-primary text-white shadow-md' 
+                      : 'bg-white dark:bg-zinc-900 border-brand-gray/20 dark:border-zinc-800 text-brand-gray dark:text-zinc-400 hover:border-brand-primary'
                   }`}
                 >
-                  <div className="font-bold text-sm">{t.label}</div>
-                  <div className={`text-[10px] ${tone === t.id ? 'text-indigo-100' : 'text-slate-400'}`}>{t.desc}</div>
+                  {t.label}
                 </button>
               ))}
             </div>
@@ -273,35 +272,31 @@ const App = () => {
   const progressPercentage = ((currentStep + 1) / STEPS.length) * 100;
 
   return (
-    <div className="min-h-screen bg-slate-50 dark:bg-slate-950 text-slate-900 dark:text-slate-100 font-sans selection:bg-indigo-100 selection:text-indigo-900 transition-colors duration-200">
+    <div className="min-h-screen bg-white dark:bg-zinc-950 text-brand-primary dark:text-zinc-100 font-sans transition-colors duration-200">
       {/* Header */}
-      <header className="bg-white/80 dark:bg-slate-900/80 backdrop-blur-md border-b border-slate-200 dark:border-slate-800 sticky top-0 z-50 transition-colors duration-200">
+      <header className="bg-white/80 dark:bg-zinc-900/80 backdrop-blur-md border-b border-brand-gray/10 sticky top-0 z-50 transition-colors">
         <div className="max-w-5xl mx-auto px-4 py-3">
           <div className="flex items-center justify-between">
             <div 
-              className="flex items-center gap-2 text-indigo-600 dark:text-indigo-400 cursor-pointer group"
+              className="flex items-center gap-2 text-brand-primary dark:text-zinc-100 cursor-pointer group"
               onClick={() => {
                 setView('home');
                 setCurrentStep(0);
                 setGeneratedComment('');
               }}
             >
-              <div className="bg-indigo-100 dark:bg-indigo-900/40 p-1.5 rounded-lg group-hover:scale-110 transition-transform">
-                <BookOpen className="w-5 h-5" />
+              <div className="bg-brand-primary/10 p-1.5 rounded-lg">
+                <BookOpen className="w-5 h-5 text-brand-primary" />
               </div>
-              <h1 className="text-lg font-bold tracking-tight">
-                Report Assistant
+              <h1 className="text-lg font-extrabold tracking-tight">
+                specAI
               </h1>
             </div>
 
-            <div className="flex items-center gap-4">
-               <div className="hidden sm:flex text-xs text-slate-500 dark:text-slate-400 items-center gap-2">
-                <Sparkles className="w-4 h-4 text-amber-500" />
-                <span>specAI</span>
-              </div>
+            <div className="flex items-center gap-3">
               <button
                 onClick={toggleTheme}
-                className="p-2 rounded-full bg-slate-100 dark:bg-slate-800 text-slate-600 dark:text-slate-400 hover:bg-slate-200 dark:hover:bg-slate-700 transition-all active:scale-90"
+                className="p-2 rounded-full hover:bg-brand-gray/5 text-brand-gray transition-all active:scale-90"
               >
                 {theme === 'light' ? <Moon className="w-4 h-4" /> : <Sun className="w-4 h-4" />}
               </button>
@@ -312,57 +307,47 @@ const App = () => {
 
       {view === 'home' ? (
         <div className="flex flex-col items-center justify-center min-h-[calc(100vh-120px)] px-4 py-12 text-center">
-          <div className="max-w-2xl animate-in fade-in slide-in-from-bottom-8 duration-1000">
-             <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-indigo-50 dark:bg-indigo-900/30 text-indigo-600 dark:text-indigo-400 text-xs font-semibold mb-6 border border-indigo-100 dark:border-indigo-800">
+          <div className="max-w-xl animate-in fade-in slide-in-from-bottom-8 duration-1000">
+             <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-brand-primary/5 text-brand-primary text-[10px] font-bold mb-6 border border-brand-primary/10">
               <Sparkles className="w-3 h-3" />
-              <span>Personalized for every student</span>
+              <span>BY SPRING ED CONSULTING</span>
             </div>
-            <h2 className="text-4xl sm:text-6xl font-extrabold text-slate-900 dark:text-white mb-6 leading-[1.1]">
-              Write like <br /><span className="text-indigo-600 dark:text-indigo-400 ">You Know Your Students.</span>
+            <h2 className="text-4xl sm:text-5xl font-black text-brand-primary dark:text-white mb-6 leading-tight">
+              The Smartest Way<br /><span className="text-brand-secondary">to Write Comments.</span>
             </h2>
-            <p className="text-lg text-slate-600 dark:text-slate-400 mb-10 leading-relaxed max-w-lg mx-auto">
-              Save hours of thinking time. Keep Your Comments Warm and Customised for Each Student.
+            <p className="text-base text-brand-gray dark:text-zinc-400 mb-10 leading-relaxed max-w-md mx-auto">
+              Draft personalized, professional end-of-term comments in minutes, not hours.
             </p>
-            <div className="flex flex-col sm:flex-row items-center justify-center gap-6">
+            <div className="flex flex-col sm:flex-row items-center justify-center gap-4">
               <button
                 onClick={() => setView('app')}
-                className="group relative inline-flex items-center gap-2 px-10 py-5 bg-indigo-600 hover:bg-indigo-700 text-white font-bold rounded-2xl shadow-xl shadow-indigo-500/30 transition-all hover:scale-105 active:scale-95 text-lg"
+                className="group relative inline-flex items-center gap-2 px-8 py-4 bg-brand-primary hover:opacity-90 text-white font-bold rounded-xl shadow-xl shadow-brand-primary/20 transition-all hover:scale-[1.02] active:scale-95 text-base"
               >
-                Start Writing
-                <ArrowRight className="w-5 h-5 transition-transform group-hover:translate-x-1" />
-              </button>
-              <button 
-                onClick={fillExample}
-                className="text-slate-500 hover:text-indigo-600 dark:text-slate-400 dark:hover:text-indigo-400 font-semibold transition-colors flex items-center gap-2"
-              >
-                <Wand2 className="w-4 h-4" />
-                See an example
+                Launch Builder
+                <ArrowRight className="w-4 h-4" />
               </button>
             </div>
           </div>
         </div>
       ) : (
-        <main className="max-w-2xl mx-auto p-4 md:p-8 pb-32">
+        <main className="max-w-xl mx-auto p-4 md:p-8 pt-12">
           
-          {/* Progress Indicator */}
+          {/* Step Meta */}
           {!generatedComment && (
-            <div className="mb-8 animate-in fade-in duration-700">
-              <div className="flex justify-between items-end mb-3">
-                <div>
-                  <h3 className="text-xl font-bold dark:text-white flex items-center gap-2">
-                    {React.createElement(STEPS[currentStep].icon, { className: "w-5 h-5 text-indigo-600" })}
-                    {STEPS[currentStep].title}
-                  </h3>
-                  <p className="text-slate-400 dark:text-slate-500 text-xs">{STEPS[currentStep].description}</p>
+            <div className="mb-6 animate-in fade-in duration-500">
+               <div className="flex items-center gap-3 mb-4">
+                <div className="w-10 h-10 rounded-full bg-brand-primary/5 flex items-center justify-center">
+                   {React.createElement(STEPS[currentStep].icon, { className: "w-5 h-5 text-brand-primary" })}
                 </div>
-                <div className="text-xs font-bold text-indigo-600 dark:text-indigo-400 tabular-nums">
-                  Step {currentStep + 1} of {STEPS.length}
+                <div>
+                  <h3 className="text-sm font-bold text-brand-primary dark:text-zinc-100 uppercase tracking-widest">{STEPS[currentStep].title}</h3>
+                  <p className="text-brand-gray text-[10px] font-medium">{STEPS[currentStep].description}</p>
                 </div>
               </div>
               
-              <div className="h-1.5 w-full bg-slate-200 dark:bg-slate-800 rounded-full overflow-hidden">
+              <div className="h-1 w-full bg-brand-gray/10 dark:bg-zinc-800 rounded-full overflow-hidden">
                 <div 
-                  className="h-full bg-indigo-600 transition-all duration-500 ease-out rounded-full shadow-[0_0_10px_rgba(79,70,229,0.3)]"
+                  className="h-full bg-brand-primary transition-all duration-500 ease-out rounded-full"
                   style={{ width: `${progressPercentage}%` }}
                 />
               </div>
@@ -371,20 +356,20 @@ const App = () => {
 
           {/* Stepper Card */}
           {!generatedComment ? (
-            <div className="bg-slate-100/50 dark:bg-slate-900/50 rounded-3xl border border-slate-200/60 dark:border-slate-800/60 p-6 md:p-8 transition-all duration-300">
+            <div className="bg-brand-muted dark:bg-brand-darkMuted rounded-2xl border border-brand-gray/10 p-6 md:p-8 transition-all duration-300">
               
-              <div className="mb-8">
+              <div className="mb-6">
                 {renderStepContent()}
               </div>
 
-              <div className="flex items-center justify-between gap-4">
+              <div className="flex items-center justify-between gap-4 pt-2">
                 <button
                   onClick={prevStep}
                   disabled={currentStep === 0}
-                  className={`flex items-center gap-2 px-5 py-2.5 rounded-xl font-bold text-sm transition-all ${
+                  className={`flex items-center gap-2 px-4 py-2 rounded-lg font-bold text-xs transition-all ${
                     currentStep === 0 
                       ? 'opacity-0 cursor-default' 
-                      : 'text-slate-400 hover:text-slate-600 dark:text-slate-500 dark:hover:text-slate-300 hover:bg-slate-200/50 dark:hover:bg-slate-800/50'
+                      : 'text-brand-gray hover:text-brand-primary hover:bg-brand-primary/5'
                   }`}
                 >
                   <ArrowLeft className="w-4 h-4" />
@@ -395,22 +380,18 @@ const App = () => {
                   <button
                     onClick={generateReport}
                     disabled={loading || !isStepValid()}
-                    className="flex-1 sm:flex-none inline-flex items-center justify-center gap-2 px-8 py-3 bg-indigo-600 hover:bg-indigo-700 disabled:bg-slate-300 dark:disabled:bg-slate-800 disabled:text-slate-400 text-white font-bold rounded-xl shadow-lg shadow-indigo-500/10 transition-all hover:scale-[1.02] active:scale-95 text-sm"
+                    className="flex-1 sm:flex-none inline-flex items-center justify-center gap-2 px-6 py-3 bg-brand-primary hover:opacity-90 disabled:bg-brand-gray/20 disabled:text-brand-gray text-white font-bold rounded-xl transition-all hover:scale-[1.02] active:scale-95 text-xs"
                   >
-                    {loading ? (
-                      <Loader2 className="w-4 h-4 animate-spin" />
-                    ) : (
-                      <Sparkles className="w-4 h-4" />
-                    )}
-                    {loading ? 'Writing...' : 'Create Comment'}
+                    {loading ? <Loader2 className="w-4 h-4 animate-spin" /> : <Sparkles className="w-4 h-4" />}
+                    {loading ? 'Drafting...' : 'Build Comment'}
                   </button>
                 ) : (
                   <button
                     onClick={nextStep}
                     disabled={!isStepValid()}
-                    className="flex-1 sm:flex-none inline-flex items-center justify-center gap-2 px-8 py-3 bg-indigo-600 hover:bg-indigo-700 disabled:bg-slate-300 dark:disabled:bg-slate-800 disabled:text-slate-400 text-white font-bold rounded-xl shadow-lg shadow-indigo-500/10 transition-all hover:scale-[1.02] active:scale-95 text-sm"
+                    className="flex-1 sm:flex-none inline-flex items-center justify-center gap-2 px-6 py-3 bg-brand-primary hover:opacity-90 disabled:bg-brand-gray/20 disabled:text-brand-gray text-white font-bold rounded-xl transition-all hover:scale-[1.02] active:scale-95 text-xs"
                   >
-                    Next Step
+                    Continue
                     <ChevronRight className="w-4 h-4" />
                   </button>
                 )}
@@ -418,66 +399,59 @@ const App = () => {
             </div>
           ) : (
             /* Result Section */
-            <div className="animate-in fade-in slide-in-from-bottom-8 duration-700 space-y-8">
-              <div className="bg-white dark:bg-slate-900 rounded-[2.5rem] shadow-2xl shadow-slate-200 dark:shadow-none border-4 border-indigo-50 dark:border-indigo-900/20 p-8 md:p-12 relative overflow-hidden">
-                <div className="absolute top-0 right-0 p-6 opacity-10">
-                  <Sparkles className="w-32 h-32 text-indigo-600" />
-                </div>
-
+            <div className="animate-in fade-in slide-in-from-bottom-8 duration-700 space-y-6">
+              <div className="bg-white dark:bg-zinc-900 rounded-3xl shadow-xl shadow-brand-primary/5 border border-brand-primary/10 p-8 relative overflow-hidden">
                 <div className="flex items-center justify-between mb-8">
                   <div className="flex items-center gap-3">
-                    <div className="w-10 h-10 rounded-full bg-indigo-100 dark:bg-indigo-900/30 flex items-center justify-center text-indigo-600 dark:text-indigo-400">
-                      <Check className="w-6 h-6" />
+                    <div className="w-8 h-8 rounded-full bg-brand-secondary/10 flex items-center justify-center text-brand-secondary">
+                      <Check className="w-5 h-5" />
                     </div>
                     <div>
-                      <h2 className="text-xl font-bold text-slate-800 dark:text-slate-100">Drafted Comment</h2>
-                      <p className="text-xs text-slate-400 uppercase font-semibold tracking-widest">{tone} tone</p>
+                      <h2 className="text-sm font-black text-brand-primary dark:text-white uppercase tracking-tighter">Drafted Report</h2>
                     </div>
                   </div>
                   
                   <button
                     onClick={handleCopy}
-                    className={`flex items-center gap-2 px-5 py-2.5 rounded-full font-bold transition-all ${
+                    className={`flex items-center gap-2 px-4 py-2 rounded-full text-xs font-bold transition-all ${
                       copied 
-                        ? 'bg-emerald-500 text-white' 
-                        : 'bg-indigo-50 dark:bg-indigo-900/40 text-indigo-600 dark:text-indigo-400 hover:bg-indigo-100'
+                        ? 'bg-brand-secondary text-white' 
+                        : 'bg-brand-primary/5 text-brand-primary hover:bg-brand-primary/10'
                     }`}
                   >
-                    {copied ? <Check className="w-4 h-4" /> : <Copy className="w-4 h-4" />}
-                    {copied ? 'Copied' : 'Copy Text'}
+                    {copied ? <Check className="w-3.5 h-3.5" /> : <Copy className="w-3.5 h-3.5" />}
+                    {copied ? 'Copied' : 'Copy'}
                   </button>
                 </div>
 
-                <div className="relative">
-                  <div className="p-8 bg-slate-50 dark:bg-slate-950/50 rounded-3xl border-2 border-slate-100 dark:border-slate-800/50">
-                    <p className="text-xl md:text-2xl leading-relaxed text-slate-700 dark:text-slate-200 font-medium italic">
-                      "{generatedComment}"
-                    </p>
-                  </div>
+                <div className="p-6 bg-brand-muted dark:bg-zinc-800 rounded-2xl border border-brand-primary/5">
+                  <p className="text-lg leading-relaxed text-brand-primary dark:text-zinc-200 font-medium italic">
+                    "{generatedComment}"
+                  </p>
                 </div>
 
-                <div className="mt-10 flex flex-wrap items-center justify-between gap-4">
-                  <div className="flex items-center gap-4 text-sm text-slate-400 font-medium">
-                    <span className="flex items-center gap-1.5"><GraduationCap className="w-4 h-4" /> {formData.name}</span>
-                    <span className="w-1 h-1 rounded-full bg-slate-300" />
+                <div className="mt-8 flex flex-wrap items-center justify-between gap-4 border-t border-brand-gray/10 pt-6">
+                  <div className="flex items-center gap-4 text-[10px] text-brand-gray font-bold uppercase tracking-widest">
+                    <span>{formData.name}</span>
+                    <span className="w-1 h-1 rounded-full bg-brand-gray/30" />
                     <span>{generatedComment.split(' ').length} words</span>
                   </div>
                   
-                  <div className="flex items-center gap-3">
+                  <div className="flex items-center gap-2">
                     <button
                       onClick={() => {
                         setGeneratedComment('');
                         setCurrentStep(0);
                       }}
-                      className="px-6 py-3 rounded-xl text-slate-500 hover:bg-slate-100 dark:hover:bg-slate-800 font-bold transition-all"
+                      className="px-4 py-2 rounded-lg text-brand-gray hover:text-brand-primary text-xs font-bold transition-all"
                     >
-                      Start New
+                      New Student
                     </button>
                     <button
                       onClick={generateReport}
-                      className="flex items-center gap-2 px-6 py-3 bg-white dark:bg-slate-800 border-2 border-slate-200 dark:border-slate-700 rounded-xl font-bold hover:border-indigo-500 transition-all group"
+                      className="flex items-center gap-2 px-4 py-2 bg-brand-primary/5 border border-brand-primary/10 rounded-lg text-brand-primary text-xs font-bold hover:bg-brand-primary/10 transition-all group"
                     >
-                      <RefreshCcw className="w-4 h-4 group-hover:rotate-180 transition-transform duration-500" />
+                      <RefreshCcw className="w-3.5 h-3.5 group-hover:rotate-180 transition-transform duration-500" />
                       Rewrite
                     </button>
                   </div>
@@ -487,7 +461,7 @@ const App = () => {
           )}
 
           {error && (
-            <div className="mt-6 p-4 bg-red-50 dark:bg-red-900/20 text-red-600 dark:text-red-400 text-sm rounded-2xl text-center border-2 border-red-100 dark:border-red-900/30 animate-in shake duration-300">
+            <div className="mt-4 p-4 bg-red-50 text-red-600 text-xs font-bold rounded-xl text-center border border-red-100">
               {error}
             </div>
           )}
@@ -496,10 +470,10 @@ const App = () => {
 
       {showConfetti && <Confetti />}
 
-      <footer className="fixed bottom-0 left-0 w-full border-t border-slate-200 dark:border-slate-800 bg-white/80 dark:bg-slate-900/80 backdrop-blur-sm transition-colors duration-200 z-40">
-        <div className="max-w-5xl mx-auto px-4 py-3 text-center text-[10px] sm:text-xs text-slate-400 dark:text-slate-500">
+      <footer className="fixed bottom-0 left-0 w-full border-t border-brand-gray/10 bg-white/80 dark:bg-zinc-900/80 backdrop-blur-sm transition-colors z-40">
+        <div className="max-w-5xl mx-auto px-4 py-3 text-center text-[9px] text-brand-gray font-bold uppercase tracking-[0.2em]">
           <p>
-            Private & Secure: Data is only used for generation and never stored. Built for educators by Spring Ed Consulting (spec).
+            Secure Assistant • Spring Ed Consulting • specAI
           </p>
         </div>
       </footer>
