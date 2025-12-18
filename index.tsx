@@ -481,7 +481,7 @@ const App = () => {
                 <Logo className="w-8 h-8" />
               </div>
               <h1 className="text-lg font-extrabold tracking-tight">
-                specAI
+                spec<span className="text-brand-gray">AI</span>
               </h1>
             </div>
 
