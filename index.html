@@ -1,9 +1,10 @@
+
 <!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Report Comments Builder AI</title>
+    <title>Report Comments Assistant</title>
     <script src="https://cdn.tailwindcss.com"></script>
    <script>
   tailwind.config = {
@@ -20,10 +21,20 @@
               transform: 'translateY(90vh) rotate(360deg)',
               opacity: '0'
             }
+          },
+          slideInRight: {
+            '0%': { transform: 'translateX(20px)', opacity: '0' },
+            '100%': { transform: 'translateX(0)', opacity: '1' }
+          },
+          slideInLeft: {
+            '0%': { transform: 'translateX(-20px)', opacity: '0' },
+            '100%': { transform: 'translateX(0)', opacity: '1' }
           }
         },
         animation: {
-          confetti: 'confetti 1.6s ease-out forwards'
+          confetti: 'confetti 1.6s ease-out forwards',
+          slideInRight: 'slideInRight 0.4s cubic-bezier(0.16, 1, 0.3, 1) forwards',
+          slideInLeft: 'slideInLeft 0.4s cubic-bezier(0.16, 1, 0.3, 1) forwards'
         }
       }
     }
