@@ -308,22 +308,22 @@ const App = () => {
       {view === 'home' ? (
         <div className="flex flex-col items-center justify-center min-h-[calc(100vh-120px)] px-4 py-12 text-center">
           <div className="max-w-xl animate-in fade-in slide-in-from-bottom-8 duration-1000">
-             <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-brand-primary/5 text-brand-primary text-[10px] font-bold mb-6 border border-brand-primary/10">
+             <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-brand-primary/5 text-brand-primary text-[10px] mb-6 border border-brand-primary/10">
               <Sparkles className="w-3 h-3" />
               <span>BY SPRING ED CONSULTING</span>
             </div>
             <h2 className="text-4xl sm:text-5xl font-black text-brand-primary dark:text-white mb-6 leading-tight">
-              The Smartest Way<br /><span className="text-brand-secondary">to Write Comments.</span>
+              Smartest Way to<br /><span className="text-brand-secondary">Write Comments.</span>
             </h2>
             <p className="text-base text-brand-gray dark:text-zinc-400 mb-10 leading-relaxed max-w-md mx-auto">
-              Draft personalized, professional end-of-term comments in minutes, not hours.
+              Draft personalized, professional end-of-term comments in seconds!
             </p>
             <div className="flex flex-col sm:flex-row items-center justify-center gap-4">
               <button
                 onClick={() => setView('app')}
                 className="group relative inline-flex items-center gap-2 px-8 py-4 bg-brand-primary hover:opacity-90 text-white font-bold rounded-xl shadow-xl shadow-brand-primary/20 transition-all hover:scale-[1.02] active:scale-95 text-base"
               >
-                Launch Builder
+                Try It
                 <ArrowRight className="w-4 h-4" />
               </button>
             </div>
@@ -471,7 +471,7 @@ const App = () => {
       {showConfetti && <Confetti />}
 
       <footer className="fixed bottom-0 left-0 w-full border-t border-brand-gray/10 bg-white/80 dark:bg-zinc-900/80 backdrop-blur-sm transition-colors z-40">
-        <div className="max-w-5xl mx-auto px-4 py-3 text-center text-[9px] text-brand-gray font-bold uppercase tracking-[0.2em]">
+        <div className="max-w-5xl mx-auto px-4 py-3 text-center text-[9px] text-brand-gray uppercase tracking-[0.2em]">
           <p>
             Secure Assistant • Spring Ed Consulting • specAI
           </p>
