@@ -505,7 +505,18 @@ const App = () => {
               <span>BY SPRING ED CONSULTING</span>
             </div>
             <h2 className="text-4xl sm:text-5xl font-black text-brand-primary dark:text-white mb-6 leading-tight">
-              Smartest Way to<br /><span className="text-brand-secondary">Write Comments.</span>
+              Smartest Way to<br />
+              <span className="text-brand-secondary inline-flex flex-wrap justify-center">
+                {"Write Students Comments.".split(" ").map((word, i) => (
+                  <span 
+                    key={i} 
+                    className="inline-block mr-[0.25em] opacity-0 animate-wordReveal"
+                    style={{ animationDelay: `${i * 0.15}s` }}
+                  >
+                    {word}
+                  </span>
+                ))}
+              </span>
             </h2>
             <p className="text-base text-brand-gray dark:text-zinc-400 mb-10 leading-relaxed max-w-md mx-auto">
               Draft personalized, professional end-of-term comments in seconds!
@@ -575,7 +586,7 @@ const App = () => {
                     className="flex-1 sm:flex-none inline-flex items-center justify-center gap-2 px-6 py-3 bg-brand-secondary hover:opacity-90 disabled:bg-brand-gray/20 disabled:text-brand-gray text-white font-bold rounded-xl transition-all hover:scale-[1.02] active:scale-95 text-xs shadow-lg shadow-brand-secondary/20"
                   >
                     {loading ? <Loader2 className="w-4 h-4 animate-spin" /> : <Sparkles className="w-4 h-4" />}
-                    {loading ? 'Drafting...' : 'Build Comment'}
+                    {loading ? 'Drafting...' : 'Generate Comment'}
                   </button>
                 ) : (
                   <button

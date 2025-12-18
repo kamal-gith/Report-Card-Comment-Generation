@@ -44,12 +44,17 @@
           slideInLeft: {
             '0%': { transform: 'translateX(-20px)', opacity: '0' },
             '100%': { transform: 'translateX(0)', opacity: '1' }
+          },
+          wordReveal: {
+            '0%': { opacity: '0', transform: 'translateY(30px) translateX(15px)' },
+            '100%': { opacity: '1', transform: 'translateY(0) translateX(0)' }
           }
         },
         animation: {
           confetti: 'confetti 1.6s ease-out forwards',
           slideInRight: 'slideInRight 0.4s cubic-bezier(0.16, 1, 0.3, 1) forwards',
-          slideInLeft: 'slideInLeft 0.4s cubic-bezier(0.16, 1, 0.3, 1) forwards'
+          slideInLeft: 'slideInLeft 0.4s cubic-bezier(0.16, 1, 0.3, 1) forwards',
+          wordReveal: 'wordReveal 0.6s cubic-bezier(0.2, 0.8, 0.2, 1) forwards'
         }
       }
     }
