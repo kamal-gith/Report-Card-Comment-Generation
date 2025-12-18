@@ -380,16 +380,16 @@ const App = () => {
                   <button
                     onClick={generateReport}
                     disabled={loading || !isStepValid()}
-                    className="flex-1 sm:flex-none inline-flex items-center justify-center gap-2 px-6 py-3 bg-brand-primary hover:opacity-90 disabled:bg-brand-gray/20 disabled:text-brand-gray text-white font-bold rounded-xl transition-all hover:scale-[1.02] active:scale-95 text-xs"
+                    className="flex-1 sm:flex-none inline-flex items-center justify-center gap-2 px-6 py-3 bg-brand-secondary hover:opacity-90 disabled:bg-brand-gray/20 disabled:text-brand-gray text-white font-bold rounded-xl transition-all hover:scale-[1.02] active:scale-95 text-xs shadow-lg shadow-brand-secondary/20"
                   >
                     {loading ? <Loader2 className="w-4 h-4 animate-spin" /> : <Sparkles className="w-4 h-4" />}
-                    {loading ? 'Drafting...' : 'Build Comment'}
+                    {loading ? 'Drafting...' : 'Generate Comment'}
                   </button>
                 ) : (
                   <button
                     onClick={nextStep}
                     disabled={!isStepValid()}
-                    className="flex-1 sm:flex-none inline-flex items-center justify-center gap-2 px-6 py-3 bg-brand-primary hover:opacity-90 disabled:bg-brand-gray/20 disabled:text-brand-gray text-white font-bold rounded-xl transition-all hover:scale-[1.02] active:scale-95 text-xs"
+                    className="flex-1 sm:flex-none inline-flex items-center justify-center gap-2 px-6 py-3 bg-brand-primary hover:opacity-90 disabled:bg-brand-gray/20 disabled:text-brand-gray text-white font-bold rounded-xl transition-all hover:scale-[1.02] active:scale-95 text-xs shadow-lg shadow-brand-primary/10"
                   >
                     Continue
                     <ChevronRight className="w-4 h-4" />
