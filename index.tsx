@@ -500,18 +500,18 @@ const App = () => {
       {view === 'home' ? (
         <div className="flex flex-col items-center justify-center min-h-[calc(100vh-120px)] px-4 py-12 text-center">
           <div className="max-w-xl animate-in fade-in slide-in-from-bottom-8 duration-1000">
-             <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-brand-primary/5 text-brand-primary text-[10px] mb-6 border border-brand-primary/10">
+             <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-brand-primary/5 text-brand-primary dark:text-white text-[10px] mb-6 border border-brand-primary/10">
               <Sparkles className="w-3 h-3" />
               <span>BY SPRING ED CONSULTING</span>
             </div>
             <h2 className="text-4xl sm:text-5xl font-black text-brand-primary dark:text-white mb-6 leading-tight">
               Smartest Way to<br />
               <span className="text-brand-secondary inline-flex flex-wrap justify-center">
-                {"Write Students Comments.".split(" ").map((word, i) => (
+                {"Write Students' Comments".split(" ").map((word, i) => (
                   <span 
                     key={i} 
                     className="inline-block mr-[0.25em] opacity-0 animate-wordReveal"
-                    style={{ animationDelay: `${i * 0.15}s` }}
+                    style={{ animationDelay: `${i * 0.35}s` }}
                   >
                     {word}
                   </span>
@@ -519,7 +519,7 @@ const App = () => {
               </span>
             </h2>
             <p className="text-base text-brand-gray dark:text-zinc-400 mb-10 leading-relaxed max-w-md mx-auto">
-              Draft personalized, professional end-of-term comments in seconds!
+              Draft personalized end-of-term comments for your student in seconds!
             </p>
             <div className="flex flex-col sm:flex-row items-center justify-center gap-4">
               <button
