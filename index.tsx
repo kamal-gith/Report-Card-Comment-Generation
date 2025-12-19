@@ -242,9 +242,9 @@ const EXAMPLE_DATA = {
 
 const STEPS = [
   { id: 'name', title: 'Student Name', icon: User, description: 'Enter the pupil name' },
-  { id: 'strengths', title: 'Strengths', icon: Zap, description: 'What are they good at?' },
-  { id: 'weaknesses', title: 'Focus Areas', icon: Target, description: 'Where can they improve?' },
-  { id: 'tone', title: 'Voice', icon: MessageSquare, description: 'Pick a report style' },
+  { id: 'strengths', title: 'Strengths', icon: Zap, description: 'What is the student good at?' },
+  { id: 'weaknesses', title: 'Focus Areas', icon: Target, description: 'Where can the student improve?' },
+  { id: 'tone', title: 'Tone', icon: MessageSquare, description: 'How do you want the comment to sound?' },
 ];
 
 const App = () => {
@@ -336,7 +336,7 @@ const App = () => {
     Strengths: ${formData.strengths}
     Areas for improvement: ${formData.weaknesses}
     Guidelines:
-    1. Keep the comment between 2 and 4 sentences.
+    1. Keep the comment between 2 and 3 sentences.
     2. Use the stated tone consistently.
     3. Mention the pupil by name once at the beginning.
     4. Refer to the strengths directly.
@@ -359,7 +359,7 @@ const App = () => {
         setShowToast(true);
         setTimeout(() => setShowToast(false), 2500);
         setShowConfetti(true);
-        setTimeout(() => setShowConfetti(false), 1800);
+        setTimeout(() => setShowConfetti(false), 1900);
       } else {
         setError("No response received from the model.");
       }
